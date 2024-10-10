@@ -1,6 +1,13 @@
+# Test data
+data
+errors
+performance
+snapshots
+
 # Logs
 logs
 *.log
+*.csv
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

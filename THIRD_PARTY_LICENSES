@@ -1,0 +1,25 @@
+# Third-Party Licenses
+
+## Faker
+
+Faker is licensed under the MIT License.
+Full license text available at <https://github.com/faker-js/faker>.
+
+MIT License
+...
+
+## @types/node
+
+@types/node is licensed under the MIT License.
+Full license text available at <https://github.com/DefinitelyTyped/DefinitelyTyped>.
+
+MIT License
+...
+
+## undici-types
+
+undici-types is licensed under the MIT License.
+Full license text available at <https://github.com/nodejs/undici>.
+
+MIT License
+...

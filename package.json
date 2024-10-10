@@ -1,0 +1,33 @@
+{
+  "name": "structura",
+  "version": "1.0.0",
+  "description": "",
+  "private": false,
+  "main": "index.js",
+  "type": "module",
+  "module": "index.ts",
+  "scripts": {
+    "gd": "npm run exec -- -- ./scripts/generateData.ts",
+    "gd:small": "npm run gd -- -- small 5000",
+    "gd:standard": "npm run gd -- -- standard 5000",
+    "gd:complex": "npm run gd -- -- complex 5000",
+    "gd:varied": "npm run gd -- -- varied 5000",
+    "stable": "npm run exec -- -- ./src/stable.ts",
+    "experiment": "npm run exec -- -- ./src/experiment.ts",
+    "exec": "node --experimental-strip-types"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndrewRedican/structura.git"
+  },
+  "author": "Andrew Redican",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/AndrewRedican/structura/issues"
+  },
+  "homepage": "https://github.com/AndrewRedican/structura#readme",
+  "devDependencies": {
+    "@faker-js/faker": "^9.0.3",
+    "@types/node": "^22.7.5"
+  }
+}
