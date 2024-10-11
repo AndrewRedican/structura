@@ -2,8 +2,6 @@
 
 **Structura** is a performance testing framework designed for tracking and logging the execution of JavaScript/TypeScript algorithms. It includes robust error handling, snapshot management, and detailed performance metrics, making it ideal for analyzing and improving the efficiency of your code over time.
 
-Structura is a performance testing framework designed for tracking and logging the execution of algorithms. It includes robust error handling, snapshot management, and detailed performance metrics, making it ideal for analyzing and improving the efficiency of your code over time.
-
 ## Table of Contents
 
 - [Features](#features)
