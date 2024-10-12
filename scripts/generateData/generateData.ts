@@ -1,7 +1,7 @@
 import type {DataGeneratorName, DataGenerator} from './model.ts'
-import * as path from 'path';
-import { fileURLToPath } from 'url';
-import * as fs from 'fs';
+import {join, dirname} from 'path';
+import {fileURLToPath} from 'url';
+import {existsSync, statSync, readFileSync, writeFileSync} from 'fs';
 import {generate} from './generators/index.ts'
 import {ensureDirectoryExists} from '../utils/index.ts'
 
@@ -16,8 +16,8 @@ export function generateData(numEntries: number, dataType: DataGeneratorName): v
   }
   const dataGenerator = generators[dataType];
   const fileName = `${dataType}.json`;
-  const dataDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '../../', 'data');
-  const finalFilePath = path.join(dataDir, fileName);
+  const dataDir = join(dirname(fileURLToPath(import.meta.url)), '../../', 'data');
+  const finalFilePath = join(dataDir, fileName);
   console.log(`Generating ${numEntries} fake entries of ${dataType} type data...`);
   console.log(`Output file path: ${finalFilePath}`);
   const data = generateDataArray(numEntries, dataGenerator);
@@ -35,15 +35,15 @@ function generateDataArray(numEntries: number, generator: DataGenerator): any[] 
 
 function writeDataToFile(filePath: string, data: any[]): void {
   let existingData: any[] = [];
-  ensureDirectoryExists(path.dirname(filePath));
-  if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
+  ensureDirectoryExists(dirname(filePath));
+  if (existsSync(filePath) && statSync(filePath).isFile()) {
     try {
-      const fileContent = fs.readFileSync(filePath, 'utf-8');
+      const fileContent = readFileSync(filePath, 'utf-8');
       existingData = JSON.parse(fileContent);
     } catch (error) {
       console.warn(`Warning: Failed to read existing data from ${filePath}. Starting with a new array.`);
     }
   }
   existingData.push(...data);
-  fs.writeFileSync(filePath, JSON.stringify(existingData, null, 2));
+  writeFileSync(filePath, JSON.stringify(existingData, null, 2));
 };
