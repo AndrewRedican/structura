@@ -7,7 +7,7 @@
   "type": "module",
   "module": "index.ts",
   "scripts": {
-    "gd": "npm run exec -- -- ./scripts/generateData.ts",
+    "gd": "npm run exec -- -- ./scripts/generateData/index.ts",
     "gd:small": "npm run gd -- -- small 5000",
     "gd:standard": "npm run gd -- -- standard 5000",
     "gd:complex": "npm run gd -- -- complex 5000",
