@@ -1,0 +1,9 @@
+{
+  "algorithmPath": "experiment",
+  "time": true,
+  "memory": true,
+  "iterations": 100,
+  "precision": 4,
+  "samplingInterval": 10,
+  "dataType": "small"
+}

@@ -72,7 +72,7 @@ npm run measure -- --algorithm experiment -t -m -i 200 -p 4 -s 10 -d complex
 
 The framework will output performance metrics to the terminal and generate logs in the appropriate directories (`./performance`, `./snapshots`, and `./errors`).
 
-#### CLI Options
+### CLI Options
 
 | Option                      | Description                                                                                                  | Required                                 | Type             | Example Value    |
 |-----------------------------|--------------------------------------------------------------------------------------------------------------|------------------------------------------|------------------|------------------|
@@ -83,6 +83,44 @@ The framework will output performance metrics to the terminal and generate logs 
 | `-p`, `--precision`         | Number of significant digits                                                                                 | Yes                                      | Positive integer | `4`              |
 | `-s`, `--sampling-interval` | Time between memory usage samples in milliseconds                                                            | Required if `-m` is specified            | Positive integer | `10`             |
 | `-d`, `--data-type`         | Type of data used for performance tests. Supported values: `small`, `standard`, `complex`, `varied`          | Yes                                      | String           | `small`           |
+
+### Configuration File
+
+Structura supports loading configuration options from a `measure.config.json` file located directly under the project root directory. This allows you to set default options without specifying them every time on the command line.
+
+#### Using the Configuration File
+
+If `measure.config.json` exists in the project root directory, the CLI will automatically read options from it. Command-line arguments will override the options specified in the configuration file. The configuration file supports the same options as the CLI, for example:
+
+```json
+{
+  "algorithmPath": "experiment",
+  "time": true,
+  "memory": true,
+  "iterations": 100,
+  "precision": 4,
+  "samplingInterval": 10,
+  "dataType": "small"
+}
+```
+
+With a configuration file in place, you can run the measure script without specifying all the options:
+
+```bash
+npm run measure
+```
+
+You can still override any option via the command line:
+
+```bash
+npm run measure -- -a stable -d complex
+```
+
+#### How Options are Resolved
+
+1. **Command-Line Arguments**: Highest priority. Any options specified on the command line will override those in the configuration file.
+2. **Configuration File**: If an option is not specified on the command line but is present in measure.config.json, it will be used.
+3. **Required Options**: If an option is required and not specified in either the command line or the configuration file, the program will exit with an error.
 
 ### Performance Testing Framework
 

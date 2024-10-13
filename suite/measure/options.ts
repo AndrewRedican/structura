@@ -1,10 +1,12 @@
 import type {MeasureOptions} from './model/measure.ts'
+import {existsSync, readFileSync} from 'fs';
 import {exitWithError} from '../../scripts/utils/exitWithError.ts'
 import {getPath} from '../../scripts/utils/getPath.ts'
 
 export function getOptions(): MeasureOptions {
   const args = process.argv.slice(2);
-  const options = { time: false, memory: false } as MeasureOptions;
+  const configOptions = readConfigFile();
+  const options = { time: false, memory: false, ...configOptions } as MeasureOptions;
   for (let i = 0; i < args.length; i+= 1) {
     switch (args[i]) {
       case '-t': case '--time':
@@ -81,6 +83,20 @@ export function getOptions(): MeasureOptions {
     )
   }
   return options;
+}
+
+function readConfigFile(): Partial<MeasureOptions> {
+  const configPath = getPath('./measure.config.json');
+  if (existsSync(configPath)) {
+    try {
+      const configContent = readFileSync(configPath, 'utf8');
+      const configOptions = JSON.parse(configContent);
+      return configOptions;
+    } catch (error) {
+      exitWithError('Failed to read or parse config file.', (error as Error)?.message);
+    }
+  }
+  return {};
 }
 
 function resolvePath(path: string): string {
