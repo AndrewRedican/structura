@@ -24,7 +24,7 @@ export async function measureTime(algorithmPath: string, iterations: number, opt
     });
 
     child.on('message', async (message: ChildMessage) => {
-      if (message.type === 'error' && message.timeStats) {
+      if (message.type === 'error') {
         const {reportError} = await import('./report/time.error.ts');
         await reportError(info, timestamp, snapshotFilePath, message);
         resolve();

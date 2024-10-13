@@ -82,7 +82,7 @@ The framework will output performance metrics to the terminal and generate logs 
 | `-i`, `--iterations`        | Number of iterations to run the algorithm                                                                    | Yes                                      | Positive integer | `100`            |
 | `-p`, `--precision`         | Number of significant digits                                                                                 | Yes                                      | Positive integer | `4`              |
 | `-s`, `--sampling-interval` | Time between memory usage samples in milliseconds                                                            | Required if `-m` is specified            | Positive integer | `10`             |
-| `-d`, `--data-type`         | Type of data used for performance tests. Supported values: `small`, `standard`, `complex`, `varied`          | Yes                                      | String           | `small`           |
+| `-d`, `--data-type`         | Type of data used for performance tests. Supported values: `none`, `small`, `standard`, `complex`, `varied`          | No. (Defaults to `none` when not specified).                                      | String           | `small`           |
 
 ### Configuration File
 

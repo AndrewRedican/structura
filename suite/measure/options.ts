@@ -6,7 +6,7 @@ import {getPath} from '../../scripts/utils/getPath.ts'
 export function getOptions(): MeasureOptions {
   const args = process.argv.slice(2);
   const configOptions = readConfigFile();
-  const options = { time: false, memory: false, ...configOptions } as MeasureOptions;
+  const options = { dataType: 'none', time: false, memory: false, ...configOptions } as MeasureOptions;
   for (let i = 0; i < args.length; i+= 1) {
     switch (args[i]) {
       case '-t': case '--time':
