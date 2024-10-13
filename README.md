@@ -6,15 +6,13 @@ The primary use of this project is to assist you in optimizing algorithms for sp
 
 ## Features
 
-- **Performance Metrics**:
-  - Measure **execution time**: minimum, maximum, total duration, and average time across multiple iterations.
-  - Measure **peak memory usage** during execution.
-- **Detailed Error Logging**:
-  - Log iteration-specific details, input data, stack traces, and algorithm information upon error occurrence.
-- **Snapshot Management**:
-  - Keep snapshots of the code being executed for historical reference, organized by version and unique content hash.
-- **Terminal Feedback**:
-  - Provide real-time feedback on test outcomes, including success details or error summaries, with links to the appropriate log files.
+1. **Performance Metrics** <br>Measure **execution time**: minimum, maximum, total duration, and average time across multiple iterations. Measure **peak memory usage** during execution.
+
+2. **Detailed Error Logging** <br>Log iteration-specific details, input data, stack traces, and algorithm information upon error occurrence.
+
+3. **Snapshot Management** <br>Keep snapshots of the code being executed for historical reference, organized by version and unique content hash.
+
+4. **Terminal Feedback** <br>Provide real-time feedback on test outcomes, including success details or error summaries, with links to the appropriate log files.
 
 ## Getting Started
 
