@@ -1,112 +1,60 @@
 # Structura
 
-**Structura** is a performance testing framework designed for tracking and logging the execution of JavaScript/TypeScript algorithms. It includes robust error handling, snapshot management, and detailed performance metrics, making it ideal for analyzing and improving the efficiency of your code over time.
+**Structura** makes performance testing of algorithms in JavaScript and TypeScript accesible. By offering detailed performance metrics and error logging, it helps developers identify inefficiencies and errors in their code, facilitating continuous improvement and optimization.
 
-## Table of Contents
-
-- [Features](#features)
-- [Getting Started](#getting-started)
-- [Usage](#usage)
-  - [Scripts](#scripts)
-    - [Generate Data](#generate-data)
-    - [Testing your algorithm](#testing-your-algorithm)
-      - [Run stable code](#run-stable-code)
-      - [Run experimental code](#run-experimental-code)
-- [Performance Testing Framework](#performance-testing-framework)
-  - [Snapshot Management](#snapshot-management)
-  - [Error Logging](#error-logging)
-  - [Terminal Output](#terminal-output)
-- [Contributing](#contributing)
-- [Author Notes](#author-notes)
-- [License](#license)
-- [Professional Collaboration And Advanced Features](#professional-collaboration-and-advanced-features)
-- [Acknowledgements](#acknowledgements)
+The primary use of this project is to assist you in optimizing algorithms for speed or memory consumption. Structura provides you with the essentials to measure, compare, and understand the performance characteristics of your code.
 
 ## Features
 
-- **Performance Testing**:
-  - Measure **execution time**, including min, max, total duration, and average time across multiple iterations.
-  - Measure **peak memory usage**
-- **Detailed Error Logging**: Log iteration-specific details, input data, stack traces, and algorithm information upon error occurrence.
-- **Snapshot Management**: Keep snapshots of code being executed for historical reference, organized by version and unique content hash.
-- **Terminal Feedback**: Provide feedback on test outcomes, including success details or error summaries, with links to the appropriate log files.
+- **Performance Metrics**:
+  - Measure **execution time**: minimum, maximum, total duration, and average time across multiple iterations.
+  - Measure **peak memory usage** during execution.
+- **Detailed Error Logging**:
+  - Log iteration-specific details, input data, stack traces, and algorithm information upon error occurrence.
+- **Snapshot Management**:
+  - Keep snapshots of the code being executed for historical reference, organized by version and unique content hash.
+- **Terminal Feedback**:
+  - Provide real-time feedback on test outcomes, including success details or error summaries, with links to the appropriate log files.
 
 ## Getting Started
 
-### 1. Project Setup
+### Project Setup
 
 To get started with Structura, clone the repository and install the dependencies:
 
 ```bash
-  git clone https://github.com/AndrewRedican/structura.git
-  cd structura
-  npm install
+git clone https://github.com/AndrewRedican/structura.git
+cd structura
+npm install
 ```
 
-### 2. Write an algorithm
+### Generating Data
 
-### 3. Run CLI command
+ Scripts to generate datasets for testing. These datasets are generated in JSON format and stored in the `./data` directory. By default, to keep the repository lean, this directory is excluded via `.gitignore`. Remove the `data` entry from `.gitignore` if you wish to commit your sample data to your remote repository.
 
+ > **Note**: You can customize the data generation process by modifying [scripts/generateData.ts](scripts/generateData.ts) to fit your specific needs.
 
+Generate datasets using the following commands:
 
-## Usage
-
-### Scripts
-
-Structura includes scripts for running various tasks. Below are some of the key commands:
-
-#### Generate Data
-
-There generate lists of records in json format under `'./data'` folder. By default, to keep respository lean this directory has been excluded, by including an entry in `.gitignore`. Remove said `data` entry if you would like to commit your sample data into your remote git repository.
-
-> Generate small dataset (5,000 records).
-
-```bash
-  npm run gd:small
-```
-
-> Generate standard dataset (5,000 records).
-
-```bash
-  npm run gd:standard
-```
-
-> Generate complex dataset (5,000 records).
-
-```bash
-  npm run gd:complex
-```
-
-> Generate varied dataset (5,000 records).
-
-```bash
-  npm run gd:varied
-```
-
-> Generate custom dataset of _N_ amount of records.
-
-You can run the following command. Where `[type]` should be replace with the either `small`, `standard`, `complex`, and `varied`, and `[number]` should be replace by any number greater than `0`. Additionally, you can modify [scripts/generateData.ts](scripts/generateData.ts) to fit your specific needs.
-
-
-```bash
-  npm run gd -- [type] [number]
-```
+- `npm run gd:small` — Generate **small** dataset (5,000 records).
+- `npm run gd:standard` — Generate **standard** dataset (5,000 records).
+- `npm run gd:complex` — Generate **complex** dataset (5,000 records).
+- `npm run gd:varied` — Generate **varied** dataset (5,000 records).
+- `npm run gd -- [type] [number]`  — Generate any custom dataset of _N_ amount of records.
+Replace `[type]` with the either `small`, `standard`, `complex`, and `varied` or a custom value, and replace `[number]` with a number greater than `0`. For you custom data type to be used, you will have to modify [scripts/generateData/generators/index.ts](scripts/generateData/generators/index.ts) to fit your specific needs and include your own data generator.
 
 ### Testing your algorithm
 
-This repository has a concept of "stable" and "experimental" version of algorithms.
+Structura distinguishes between "stable" and "experimental" versions of algorithms. In reality, this is more of a _suggestion_, since technically you can target any TypeScript file under the source folder, provided you include the relative path or name with the `--algorithm` or `-a` (shorthand) flags.
 
-"stable" could be whatever you'd like it to be. It could be whatever the is the latest algorithm version that is optimized for something specific (only you would know what that is). When you are happy, simply copy the code into [./src/stable.ts](./src/stable.ts).
+- **Stable**: The version of your algorithm that is considered reliable and optimized. Place this code in [./src/stable.ts](./src/stable.ts).
+- **Experimental**: The version under development or testing. Place this code in [./src/experiment.ts](./src/experiment.ts).
 
-"experimental" as the name implies, it is your work in progress code, that you have been modifying to achieve a certain goal, but you need to test it or refine it further.
-
-Having a "stable" and "experimental" is basically following the scientific method to compare a control/current group (a.k.a code or situation) against the experiment group (a.k.a new code or new situation) ideally changing one specific thing at a time.
+This separation allows you to compare the performance of different versions, following the scientific method by changing one specific aspect at a time.
 
 #### Run Stable Code
 
-To execute performance tests against the _stable_ version of the algorithm, you can run the following command.
-
-> Note: Notice the `-a` flag, this is references to the name of the target file that is going to be tested
+To execute performance tests against the **stable** version of the algorithm:
 
 ```bash
   npm run measure -- -a stable -t -m -i 100 -p 4 -s 10 -d small
@@ -116,17 +64,15 @@ This will execute the code in [./src/stable.ts](./src/stable.ts).
 
 #### Run Experimental Code
 
-Execute the experimental version of the code [./src/experiment.ts](./src/experiment.ts).
-
-To execute performance tests against the _stable_ version of the algorithm, you can run the following command.
-
-> Note: Notice the `--algorithm` flag which is essentially the same as `-a` (shorthand version), this is references to the name of the target file that is going to be tested. You may supply a relative path from the `src` folder, or simply supply the name of the file directly under `src` that you want to test. Specificying the `.ts` file extension is entirely optional.
+To execute performance tests against the **experimental** version of your algorithm:
 
 ```bash
 npm run measure -- --algorithm experiment -t -m -i 200 -p 4 -s 10 -d complex
 ```
 
-The framework will output performance metrics to the terminal and generate logs in the appropriate directories (./performance, ./snapshots, and ./errors).
+> Note: The `--algorithm` flag (or `-a` for short) specifies the target file to test. You can supply a relative path from the `src` folder or simply provide the filename directly under `src`. Specifying the `.ts` file extension is optional.
+
+The framework will output performance metrics to the terminal and generate logs in the appropriate directories (`./performance`, `./snapshots`, and `./errors`).
 
 #### CLI Options
 
@@ -142,15 +88,15 @@ The framework will output performance metrics to the terminal and generate logs 
 
 ### Performance Testing Framework
 
-The framework provides detailed logging for performance tests and error handling.
+The framework provides detailed logging for performance tests and error handling, facilitating thorough analysis and optimization.
 
 ### Snapshot Management
 
-During execution, a snapshot of the code being tested is saved in the `./snapshots/{version}/{sha}` directory. The snapshot is identified by a unique hash (sha) and contains a copy of the code file being executed. This allows you to trace back to the exact version of the code that was run.
+During execution, a snapshot of the code being tested is saved in the `./snapshots/{version}/{sha}` directory. Each snapshot is identified by a unique hash (SHA) and contains a copy of the code file being executed. This allows you to trace back to the exact version of the code that was run for any given test.
 
 ### Error Logging
 
-If an error occurs, an error log is generated in the ./errors/{version}/{sha}.log file. The error log contains:
+If an error occurs during testing, an error log is generated in the `./errors/{version}/{sha}.log` file. The error log includes:
 
 - Algorithm name
 - Execution and error timestamps
@@ -162,7 +108,7 @@ If an error occurs, an error log is generated in the ./errors/{version}/{sha}.lo
 
 ### Terminal Output
 
-The terminal output will display the current specifications of the test being run:
+The terminal output displays the current specifications of the test being run, as well as the results:
 
 ![Screenshot of the Performance Test Specifications](misc/screenshots/test-specs.png)
 
