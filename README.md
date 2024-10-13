@@ -135,11 +135,11 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ### Author Notes
 
-Structura follows the philosophy of "Simple is best." The aim is to keep the framework lean and easy to understand. Here are some guiding principles:
+Structura follows the philosophy of "Simple is best". The framework aims to remain lean and easy to understand, balancing functionality with simplicity.
 
-- **Minimal Dependencies**: The use of third-party packages is kept to a minimum to avoid unnecessary complexity.
-- **Node.js Version 22+**: The framework is designed to use the latest Node.js version (22+), which includes experimental TypeScript support.
-- **Simplicity Over Convenience**: While convenience features are welcome, they must be weighed against the added complexity or potential dependencies.
+- **Minimal Dependencies**: Third-party packages are minimized to reduce complexity.
+- **Node.js Version 22+**: Designed for the latest Node.js version (22+), leveraging experimental TypeScript support.
+- **Simplicity Over Convenience**: Convenience features are considered carefully to avoid unnecessary complexity or dependencies.
 
 ### License
 
@@ -148,7 +148,7 @@ TL;DR: Free for non-commercial use, with no warranty. Use at your own risk. See 
 
 ### Professional Collaboration And Advanced Features
 
-If you are interested in a more advanced version of Structura with full commercial licensing, algorithm versioning, or AI-integration for self-enhancement or automated unit tests, please reach out to the author.
+For a more advanced version of Structura with full commercial licensing, algorithm versioning, or AI integration for self-enhancement or automated unit tests, please reach out to the author.
 
 - **Email**: [andrew.redican.mejia@gmail.com](mailto:andrew.redican.mejia@gmail.com)
 - **LinkedIn**: [Andrew Redican](https://www.linkedin.com/in/andrewredican/)
@@ -157,7 +157,7 @@ We can discuss custom licensing options and how to extend the framework for your
 
 ## Acknowledgements
 
-This project makes use of the following third-party libraries:
+This project utilizes the following third-party libraries:
 
 - [Faker](https://github.com/faker-js/faker) - Licensed under the MIT License.
 - [@types/node](https://github.com/DefinitelyTyped/DefinitelyTyped) - Licensed under the MIT License.
