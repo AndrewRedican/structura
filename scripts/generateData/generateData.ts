@@ -1,9 +1,11 @@
-import type {DataGeneratorName, DataGenerator} from './model.ts'
-import {join, dirname} from 'path';
+import type {DataGeneratorName, DataGenerator} from './model.ts';
+import {execSync} from 'child_process';
+import {join, dirname, resolve} from 'path';
 import {fileURLToPath} from 'url';
 import {existsSync, statSync, readFileSync, writeFileSync} from 'fs';
-import {generate} from './generators/index.ts'
-import {ensureDirectoryExists} from '../utils/index.ts'
+import {ensureDirectoryExists} from '../utils/ensureDirectoryExists.ts'
+import {getPath} from '../utils/getPath.ts';
+import {generate} from './generators/index.ts';
 
 export function generateData(numEntries: number, dataType: DataGeneratorName): void {
   const generators = generate()
@@ -22,6 +24,7 @@ export function generateData(numEntries: number, dataType: DataGeneratorName): v
   console.log(`Output file path: ${finalFilePath}`);
   const data = generateDataArray(numEntries, dataGenerator);
   writeDataToFile(finalFilePath, data);
+  convertJsonArrayToNdjson(dataType);
   console.log(`Generated and stored ${numEntries} fake entries successfully.`);
 };
 
@@ -47,3 +50,16 @@ function writeDataToFile(filePath: string, data: any[]): void {
   existingData.push(...data);
   writeFileSync(filePath, JSON.stringify(existingData, null, 2));
 };
+
+function convertJsonArrayToNdjson(dataType: DataGeneratorName): void {
+  const dataDir = getPath('./data');
+  const inputFilePath = resolve(dataDir, `${dataType}.json`);
+  const outputFilePath = resolve(dataDir, `${dataType}.ndjson`);
+  const command = `jq -c '.[]' "${inputFilePath}" > "${outputFilePath}"`;
+  try {
+    execSync(command, { stdio: 'inherit' });
+    console.log(`Converted ${inputFilePath} to NDJSON format at ${outputFilePath}`);
+  } catch (error) {
+    console.error(`Failed to convert JSON to NDJSON for dataType: ${dataType}`, error);
+  }
+}
