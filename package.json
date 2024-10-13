@@ -7,14 +7,12 @@
   "type": "module",
   "module": "index.ts",
   "scripts": {
-    "gd": "npm run exec -- -- ./scripts/generateData/index.ts",
+    "gd": "node --experimental-strip-types ./scripts/generateData/index.ts",
     "gd:small": "npm run gd -- -- small 5000",
     "gd:standard": "npm run gd -- -- standard 5000",
     "gd:complex": "npm run gd -- -- complex 5000",
     "gd:varied": "npm run gd -- -- varied 5000",
-    "stable": "npm run exec -- -- ./src/stable.ts",
-    "experiment": "npm run exec -- -- ./src/experiment.ts",
-    "exec": "node --experimental-strip-types"
+    "measure": "node --experimental-strip-types ./suite/measure.ts"
   },
   "repository": {
     "type": "git",
@@ -29,5 +27,17 @@
   "devDependencies": {
     "@faker-js/faker": "^9.0.3",
     "@types/node": "^22.7.5"
-  }
+  },
+  "keywords": [
+    "TypeScript",
+    "Performance",
+    "Testing",
+    "JavaScript",
+    "Node",
+    "TS",
+    "JS",
+    "andrewredican",
+    "execution time",
+    "memory usage"
+  ]
 }

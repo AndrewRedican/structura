@@ -24,12 +24,16 @@
 
 ## Features
 
-- **Performance Testing**: Measure execution time, including min, max, total duration, and average time across multiple iterations.
+- **Performance Testing**:
+  - Measure **execution time**, including min, max, total duration, and average time across multiple iterations.
+  - Measure **peak memory usage**
 - **Detailed Error Logging**: Log iteration-specific details, input data, stack traces, and algorithm information upon error occurrence.
 - **Snapshot Management**: Keep snapshots of code being executed for historical reference, organized by version and unique content hash.
 - **Terminal Feedback**: Provide feedback on test outcomes, including success details or error summaries, with links to the appropriate log files.
 
 ## Getting Started
+
+### 1. Project Setup
 
 To get started with Structura, clone the repository and install the dependencies:
 
@@ -38,6 +42,12 @@ To get started with Structura, clone the repository and install the dependencies
   cd structura
   npm install
 ```
+
+### 2. Write an algorithm
+
+### 3. Run CLI command
+
+
 
 ## Usage
 
@@ -75,11 +85,11 @@ There generate lists of records in json format under `'./data'` folder. By defau
 
 > Generate custom dataset of _N_ amount of records.
 
-You can run the following command. Where `type` should be replace with the either `small`, `standard`, `complex`, and `varied`, and `<number>` should be replace by any number greater than `0`. Additionally, you can modify [scripts/generateData.ts](scripts/generateData.ts) to fit your specific needs.
+You can run the following command. Where `[type]` should be replace with the either `small`, `standard`, `complex`, and `varied`, and `[number]` should be replace by any number greater than `0`. Additionally, you can modify [scripts/generateData.ts](scripts/generateData.ts) to fit your specific needs.
 
 
 ```bash
-  npm run gd -- <type> <number>
+  npm run gd -- [type] [number]
 ```
 
 ### Testing your algorithm
@@ -94,10 +104,12 @@ Having a "stable" and "experimental" is basically following the scientific metho
 
 #### Run Stable Code
 
-To execute the stable version of the code:
+To execute performance tests against the _stable_ version of the algorithm, you can run the following command.
+
+> Note: Notice the `-a` flag, this is references to the name of the target file that is going to be tested
 
 ```bash
-  npm run stable
+  npm run measure -- -a stable -t -m -i 100 -p 4 -s 10 -d small
 ```
 
 This will execute the code in [./src/stable.ts](./src/stable.ts).
@@ -106,13 +118,27 @@ This will execute the code in [./src/stable.ts](./src/stable.ts).
 
 Execute the experimental version of the code [./src/experiment.ts](./src/experiment.ts).
 
-To run a performance test using the experimental script, execute the following command:
+To execute performance tests against the _stable_ version of the algorithm, you can run the following command.
+
+> Note: Notice the `--algorithm` flag which is essentially the same as `-a` (shorthand version), this is references to the name of the target file that is going to be tested. You may supply a relative path from the `src` folder, or simply supply the name of the file directly under `src` that you want to test. Specificying the `.ts` file extension is entirely optional.
 
 ```bash
-npm run experiment
+npm run measure -- --algorithm experiment -t -m -i 200 -p 4 -s 10 -d complex
 ```
 
 The framework will output performance metrics to the terminal and generate logs in the appropriate directories (./performance, ./snapshots, and ./errors).
+
+#### CLI Options
+
+| Option                      | Description                                                                                                  | Required                                 | Type             | Example Value    |
+|-----------------------------|--------------------------------------------------------------------------------------------------------------|------------------------------------------|------------------|------------------|
+| `-t`, `--time`              | Measure execution time                                                                                       | At least one of `-t` or `-m` is required | Flag (Boolean)   | N/A              |
+| `-m`, `--memory`            | Measure memory usage                                                                                         | At least one of `-t` or `-m` is required | Flag (Boolean)   | N/A              |
+| `-a`, `--algorithm`         | Path to the algorithm under test, relative to the root directory                                             | Yes                                      | String           | `experiment`     |
+| `-i`, `--iterations`        | Number of iterations to run the algorithm                                                                    | Yes                                      | Positive integer | `100`            |
+| `-p`, `--precision`         | Number of significant digits                                                                                 | Yes                                      | Positive integer | `4`              |
+| `-s`, `--sampling-interval` | Time between memory usage samples in milliseconds                                                            | Required if `-m` is specified            | Positive integer | `10`             |
+| `-d`, `--data-type`         | Type of data used for performance tests. Supported values: `small`, `standard`, `complex`, `varied`          | Yes                                      | String           | `small`           |
 
 ### Performance Testing Framework
 
@@ -136,29 +162,21 @@ If an error occurs, an error log is generated in the ./errors/{version}/{sha}.lo
 
 ### Terminal Output
 
-The terminal output will indicate whether the test completed successfully or encountered an error:
+The terminal output will display the current specifications of the test being run:
+
+![Screenshot of the Performance Test Specifications](misc/screenshots/test-specs.png)
+
+The terminal output will also indicate whether the test completed successfully or encountered an error:
 
 **Success:**
 
-```text
-Performance test completed successfully.
-Details:
-  Total Duration: 2500.34 ms
-  Count: 5
-  Min: 500.00 ms
-  Max: 520.50 ms
-  Average: 510.07 ms
-Performance report generated at: /path/to/performance/raw/experiment/4f6992c3ac12ba844f46afc685e0f0a8ca9ee402d02a27b2488f894d459ba2eb.csv
-```
+![Screenshot of Execution Duration Test that ran Successfully](misc/screenshots/time-success.png)
 
 **Error:**
 
-```text
-An error occurred during the performance test.
-Iteration: 3
-Input Data: "error"
-Error details have been logged at: /path/to/errors/experiment/4f6992c3ac12ba844f46afc685e0f0a8ca9ee402d02a27b2488f894d459ba2eb.log
-```
+![Screenshot of Execution Duration Test that ran Successfully](misc/screenshots/time-error.png)
+
+![Screenshot of Error Details](misc/screenshots/time-error-detail.png)
 
 ### Contributing
 
