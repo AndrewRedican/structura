@@ -1,10 +1,9 @@
 import type {DataGeneratorName, DataGenerator} from './model.ts';
-import {execSync} from 'child_process';
-import {join, dirname, resolve} from 'path';
+import {join, dirname} from 'path';
 import {fileURLToPath} from 'url';
 import {existsSync, statSync, readFileSync, writeFileSync} from 'fs';
-import {ensureDirectoryExists} from '../utils/ensureDirectoryExists.ts'
-import {getPath} from '../utils/getPath.ts';
+import {ensureDirectoryExists} from '../utils/ensureDirectoryExists.ts';
+import {convertJsonArrayToNdjson} from '../utils/convertJsonArrayToNdjson.ts';
 import {generate} from './generators/index.ts';
 
 export function generateData(numEntries: number, dataType: DataGeneratorName): void {
@@ -13,8 +12,8 @@ export function generateData(numEntries: number, dataType: DataGeneratorName): v
     console.error(`Unknown number of entries: ${numEntries}. Must be greater than zero.`);
     return;
   }
-  if (typeof dataType !== 'object' || !Object.keys(generators).includes(dataType)) {
-    console.error(`Unknown data type: ${dataType}. Valid types are: small, standard, complex, varied.`);
+  if (typeof dataType !== 'string' || !Object.keys(generators).includes(dataType)) {
+    console.error(`Unknown data type: ${dataType}. Valid types are: none, small, standard, complex, varied.`);
   }
   const dataGenerator = generators[dataType];
   const fileName = `${dataType}.json`;
@@ -51,15 +50,3 @@ function writeDataToFile(filePath: string, data: any[]): void {
   writeFileSync(filePath, JSON.stringify(existingData, null, 2));
 };
 
-function convertJsonArrayToNdjson(dataType: DataGeneratorName): void {
-  const dataDir = getPath('./data');
-  const inputFilePath = resolve(dataDir, `${dataType}.json`);
-  const outputFilePath = resolve(dataDir, `${dataType}.ndjson`);
-  const command = `jq -c '.[]' "${inputFilePath}" > "${outputFilePath}"`;
-  try {
-    execSync(command, { stdio: 'inherit' });
-    console.log(`Converted ${inputFilePath} to NDJSON format at ${outputFilePath}`);
-  } catch (error) {
-    console.error(`Failed to convert JSON to NDJSON for dataType: ${dataType}`, error);
-  }
-}

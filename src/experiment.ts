@@ -1,8 +1,10 @@
 export default async function algorithm(inputData: any): Promise<void> {
-  // Your algorithm implementation
-  // Example: Allocate some memory
-  const data = new Array(1000).fill('x');
+  // Uncomment to print data passed into the function
+  // console.log(inputData);
 
-  // Simulate processing delay
-  await new Promise((resolve) => setTimeout(resolve, 10));
+  // Uncomment to test some memory usage
+  // const data = new Array(1000).fill('x');
+
+  // Uncomment to test time execytion by simulating processing delay
+  // await new Promise((resolve) => setTimeout(resolve, 10));
 }

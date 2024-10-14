@@ -1,6 +1,9 @@
+import type {DataGeneratorName} from '../../../scripts/generateData/model.ts';
+
 export interface RunOptions {
-  inputCallback?: (iteration: number) => any;
   precision: number;
+  iterations: number;
+  dataType: DataGeneratorName;
 }
 
 export interface TimeStats {
