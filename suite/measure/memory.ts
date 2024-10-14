@@ -19,20 +19,18 @@ export async function measureMemory(
       [info.fullPath, options.iterations.toString(), options.dataType, options.samplingInterval.toString()],
       { stdio: ['inherit', 'inherit', 'inherit', 'ipc'] }
     );
-
-    child.on('message', (message: ChildMessage) => {
+    child.on('message', async (message: ChildMessage) => {
       if (message.type === 'result' && typeof message.peakMemoryUsage === 'number') {
-        const peakMemoryUsageMB = message.peakMemoryUsage / 1024 / 1024;
-        console.log('\n\n\nPerformance test completed successfully.');
-        console.log(
-          `Peak Memory Usage: ${peakMemoryUsageMB.toFixed(typeof options.precision === 'number' && options.precision > 0 ? options.precision : 4)} MB`
-        );
+        const { reportSuccess } = await import('./report/memory.success.ts');
+        await reportSuccess(info, timestamp, message, options);
+        resolve();
+      } else if (message.type === 'error') {
+        const { reportError } = await import('./report/memory.error.ts');
+        await reportError(info, timestamp, snapshotFilePath, message);
         resolve();
       }
     });
-
-    child.on('exit', () => resolve());
-
+    child.on('exit', resolve);
     child.send({ type: 'start' });
   });
 }

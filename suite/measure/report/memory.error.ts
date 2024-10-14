@@ -1,4 +1,4 @@
-import type {ChildMessage} from '../model/time.ts'
+import type {ChildMessage} from '../model/memory.ts'
 import type {Algorithm} from '../model/algorithm.ts'
 import {writeFileSync} from 'fs';
 import {resolve, join} from 'path';
@@ -10,7 +10,7 @@ export function reportError(algorithm: Algorithm, timestamp: string, snapshotFil
   if (message.type !== 'error') {
     return;
   }
-  console.log(`\nExecution Time Test: ${red('✗ Failed')}`);
+  console.log(`\nMemory Usage Test: ${red('✗ Failed')}`);
   const errorDetails = `Details
  • Execution Timestamp: ${timestamp}
  • Error Timestamp: ${new Date().toISOString()}

@@ -20,7 +20,7 @@ export async function measureTime(
       { stdio: ['inherit', 'inherit', 'inherit', 'ipc'] }
     );
     child.on('message', async (message: ChildMessage) => {
-      if (message.type === 'result' && message.timeStats) {
+      if (message.type === 'result' && typeof message.timeStats === 'object') {
         const { reportSuccess } = await import('./report/time.success.ts');
         await reportSuccess(info, timestamp, message, options);
         resolve();
@@ -30,9 +30,7 @@ export async function measureTime(
         resolve();
       }
     });
-
-    child.on('exit', () => resolve());
-
+    child.on('exit', resolve);
     child.send({ type: 'start' });
   });
 }

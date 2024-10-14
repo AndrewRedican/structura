@@ -25,7 +25,7 @@ export function reportSuccess(algorithm: Algorithm, timestamp: string, message: 
   try {
     const reportDir = resolve(getPath('./performance/raw'), algorithm.fileName);
     ensureDirectoryExists(reportDir);
-    const reportFilePath = join(reportDir, `${algorithm.sha}.csv`);
+    const reportFilePath = join(reportDir, `${algorithm.sha}.time.csv`);
     if (!existsSync(reportFilePath)) {
       appendFileSync(reportFilePath, 'Timestamp,Total Iterations,Total Duration (ms),Min Duration (ms),Max Duration (ms),Average Duration (ms)\n');
     }

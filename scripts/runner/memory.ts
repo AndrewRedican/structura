@@ -23,18 +23,18 @@ process.on('message', async (message: ParentMessage) => {
       peakMemoryUsage = currentMemory;
     }
   }, samplingInterval);
+  let i = 0;
+  let inputData: any;
   try {
     const rl = createInterface({ input: createReadStream(dataFilePath), crlfDelay: Infinity });
     const iterator = rl[Symbol.asyncIterator]();
-    let i = 0;
     while (i < iterations) {
       const { value: line, done } = await iterator.next();
       if (done) {
         console.error(`Insufficient data. Required: ${iterations}, Available: ${i}`);
         process.exit(1);
       }
-      const inputData = JSON.parse(line);
-
+      inputData = JSON.parse(line);
       await algorithm(inputData);
       i += 1;
     }
@@ -43,7 +43,16 @@ process.on('message', async (message: ParentMessage) => {
     process.send?.({ type: 'result', peakMemoryUsage });
     process.exit(0);
   } catch (error) {
-    console.error('An error occurred:', error);
+    process.send?.({
+      type: 'error',
+      peakMemoryUsage,
+      algorithmName: functionName(algorithm),
+      algorithmBody: algorithm?.toString() || 'Unavailable',
+      iteration: i,
+      inputData: JSON.stringify(inputData ?? 'Unavailable'),
+      errorMessage: (error as Error).message || 'Unavailable',
+      errorStack: (error as Error).stack || 'Unavailable',
+    });
     process.exit(1);
   }
 });

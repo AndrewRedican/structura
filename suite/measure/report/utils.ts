@@ -9,3 +9,5 @@ export const red = createColorizer('31');
 export const green = createColorizer('32');
 
 export const ms = (text: string | number) => `${text} ms`
+
+export const MB = (text: string | number) => `${text} MB`

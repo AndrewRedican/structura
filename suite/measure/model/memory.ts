@@ -9,7 +9,11 @@ export interface RunOptions {
 
 export interface ChildMessage {
   type: string;
-  algorithmName: string;
-  iteration: number;
-  peakMemoryUsage: number;
+  algorithmName?: string;
+  algorithmBody?: string;
+  peakMemoryUsage?: number;
+  iteration?: number;
+  inputData?: string;
+  errorMessage?: string;
+  errorStack?: string;
 }
