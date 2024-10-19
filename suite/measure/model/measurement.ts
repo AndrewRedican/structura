@@ -1,4 +1,5 @@
-import type {DataGeneratorName} from '../../../scripts/generateData/model.ts'
+import type {DataGeneratorName} from '../../../scripts/generateData/model.ts';
+import type {Logger} from './logging.ts';
 
 export interface MeasurementOptions<RunOptions, ChildMessage> {
   /**
@@ -29,7 +30,7 @@ export interface MeasurementOptions<RunOptions, ChildMessage> {
    * @param message - The message received from the child process.
    * @param options - The run options provided to the measurement.
    */
-  onResult: (info: any, timestamp: string, message: ChildMessage, options: RunOptions) => Promise<void>;
+  onResult: (logger: Logger, info: any, timestamp: string, message: ChildMessage, options: RunOptions) => Promise<void>;
   /**
    * Callback invoked when the child process sends an 'error' message.
    *
@@ -38,5 +39,5 @@ export interface MeasurementOptions<RunOptions, ChildMessage> {
    * @param snapshotFilePath - The path to the snapshot file.
    * @param message - The error message received from the child process.
    */
-  onError: (info: any, timestamp: string, snapshotFilePath: string, message: ChildMessage) => Promise<void>;
+  onError: (logger: Logger, info: any, timestamp: string, snapshotFilePath: string, message: ChildMessage) => Promise<void>;
 }

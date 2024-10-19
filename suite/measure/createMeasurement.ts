@@ -1,11 +1,12 @@
 import type {MeasurementOptions} from './model/measurement.ts';
+import type {Logger} from './model/logging.ts';
 import {fork, ChildProcess} from 'child_process';
 import {getPath} from '../../scripts/utils/getPath.ts';
 import {ensureNdjsonFile} from '../../scripts/utils/ensureNdjsonFile.ts';
 import {getAlgorithmInfo} from './info.ts';
 import {generateSnapshot} from './report/snapshot.ts';
 
-export async function createMeasurement<RunOptions, ChildMessage>(measurementOptions: MeasurementOptions<RunOptions, ChildMessage>): Promise<ChildMessage> {
+export async function createMeasurement<RunOptions, ChildMessage>(measurementOptions: MeasurementOptions<RunOptions, ChildMessage>, logger: Logger): Promise<ChildMessage> {
   const {algorithmPath, options, runnerScript, runnerArgs, onResult, onError} = measurementOptions;
   ensureNdjsonFile(options.dataType);
   const info = getAlgorithmInfo(algorithmPath);
@@ -20,10 +21,10 @@ export async function createMeasurement<RunOptions, ChildMessage>(measurementOpt
     child.on('message', async (message: any) => {
       const type = message.type;
       if (type === 'result') {
-        await onResult(info, timestamp, message, options);
+        await onResult(logger, info, timestamp, message, options);
         resolve(message);
       } else if (type === 'error') {
-        await onError(info, timestamp, snapshotFilePath, message);
+        await onError(logger, info, timestamp, snapshotFilePath, message);
         resolve(void 0 as any);
       }
     });

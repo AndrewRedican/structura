@@ -1,20 +1,21 @@
 import type {Algorithm} from '../model/algorithm.ts';
 import type {ChildMessage, RunOptions} from '../model/time.ts';
+import type {Logger} from '../model/logging.ts';
 import {existsSync, appendFileSync} from 'fs';
 import {resolve, join} from 'path';
 import {getPath} from '../../../scripts/utils/getPath.ts';
 import {ensureDirectoryExists} from '../../../scripts/utils/ensureDirectoryExists.ts';
 import {green, cyan, ms} from './utils.ts'
 
-export function reportSuccess(algorithm: Algorithm, timestamp: string, message: ChildMessage, options: RunOptions): void {
+export function reportSuccess(logger: Logger, algorithm: Algorithm, timestamp: string, message: ChildMessage, options: RunOptions): void {
   if (message.type !== 'result') return;
-  console.log(`\nExecution Time Test: ${green('✓ Completed Successfully')}`);
+  logger.log(`\nExecution Time Test: ${green('✓ Completed Successfully')}`);
   const precision = typeof options.precision === 'number' && options.precision > 0 ? options.precision : 4
   const totalDuration = message.totalDuration.toFixed(precision);
   const minDuration = message.minDuration.toFixed(precision);
   const maxDuration = message.maxDuration.toFixed(precision);
   const averageDuration = message.averageDuration.toFixed(precision);
-  console.log(`Details:
+  logger.log(`Details:
  • Total Iterations: ${cyan(options.iterations)}
  • Total Duration: ${cyan(ms(totalDuration))}
  • Min Duration: ${cyan(ms(minDuration))}
@@ -28,7 +29,7 @@ export function reportSuccess(algorithm: Algorithm, timestamp: string, message: 
       appendFileSync(reportFilePath, 'Timestamp,Total Iterations,Total Duration (ms),Min Duration (ms),Max Duration (ms),Average Duration (ms)\n');
     }
     appendFileSync(reportFilePath, `${timestamp},${options.iterations},${totalDuration},${minDuration},${maxDuration},${averageDuration}\n`);
-    console.log(` • Performance Report: ${cyan(reportFilePath)}`);
+    logger.log(` • Performance Report: ${cyan(reportFilePath)}`);
   } catch (error) {
     throw new Error('Could not generate execution time report.\n' + error);
   }
