@@ -5,13 +5,13 @@ import {ensureNdjsonFile} from '../../scripts/utils/ensureNdjsonFile.ts';
 import {getAlgorithmInfo} from './info.ts';
 import {generateSnapshot} from './report/snapshot.ts';
 
-export async function createMeasurement<RunOptions, ChildMessage>(measurementOptions: MeasurementOptions<RunOptions, ChildMessage>): Promise<void> {
+export async function createMeasurement<RunOptions, ChildMessage>(measurementOptions: MeasurementOptions<RunOptions, ChildMessage>): Promise<ChildMessage> {
   const {algorithmPath, options, runnerScript, runnerArgs, onResult, onError} = measurementOptions;
   ensureNdjsonFile(options.dataType);
   const info = getAlgorithmInfo(algorithmPath);
   const snapshotFilePath = generateSnapshot(info);
   const timestamp = new Date().toISOString();
-  return new Promise<void>((resolve) => {
+  return new Promise<ChildMessage>((resolve) => {
     const child: ChildProcess = fork(
       getPath(runnerScript),
       runnerArgs(info, options),
@@ -21,10 +21,10 @@ export async function createMeasurement<RunOptions, ChildMessage>(measurementOpt
       const type = message.type;
       if (type === 'result') {
         await onResult(info, timestamp, message, options);
-        resolve();
+        resolve(message);
       } else if (type === 'error') {
         await onError(info, timestamp, snapshotFilePath, message);
-        resolve();
+        resolve(void 0 as any);
       }
     });
     child.on('exit', resolve);
