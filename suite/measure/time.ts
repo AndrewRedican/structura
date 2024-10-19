@@ -20,12 +20,13 @@ export async function measureTime(
       { stdio: ['inherit', 'inherit', 'inherit', 'ipc'] }
     );
     child.on('message', async (message: ChildMessage) => {
-      if (message.type === 'result' && typeof message.timeStats === 'object') {
-        const { reportSuccess } = await import('./report/time.success.ts');
+      const type = message.type;
+      if (type === 'result') {
+        const {reportSuccess} = await import('./report/time.success.ts');
         await reportSuccess(info, timestamp, message, options);
         resolve();
-      } else if (message.type === 'error') {
-        const { reportError } = await import('./report/time.error.ts');
+      } else if (type === 'error') {
+        const {reportError} = await import('./report/time.error.ts');
         await reportError(info, timestamp, snapshotFilePath, message);
         resolve();
       }

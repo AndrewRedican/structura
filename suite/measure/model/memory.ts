@@ -8,12 +8,12 @@ export interface RunOptions {
 }
 
 export interface ChildMessage {
-  type: string;
+  type: 'result' | 'error';
   algorithmName?: string;
   algorithmBody?: string;
-  peakMemoryUsage?: number;
-  iteration?: number;
-  inputData?: string;
+  peakMemoryUsage: number;
+  currentIteration?: number;
+  currentInputData?: string;
   errorMessage?: string;
   errorStack?: string;
 }

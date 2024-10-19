@@ -7,15 +7,13 @@ import {ensureDirectoryExists} from '../../../scripts/utils/ensureDirectoryExist
 import {green, cyan, ms} from './utils.ts'
 
 export function reportSuccess(algorithm: Algorithm, timestamp: string, message: ChildMessage, options: RunOptions): void {
-  if (message.type !== 'result' || typeof message.timeStats !== 'object') {
-    return;
-  }
+  if (message.type !== 'result') return;
   console.log(`\nExecution Time Test: ${green('✓ Completed Successfully')}`);
   const precision = typeof options.precision === 'number' && options.precision > 0 ? options.precision : 4
-  const totalDuration = message.timeStats.totalDuration.toFixed(precision);
-  const minDuration = message.timeStats.minDuration.toFixed(precision);
-  const maxDuration = message.timeStats.maxDuration.toFixed(precision);
-  const averageDuration = message.timeStats.averageDuration.toFixed(precision);
+  const totalDuration = message.totalDuration.toFixed(precision);
+  const minDuration = message.minDuration.toFixed(precision);
+  const maxDuration = message.maxDuration.toFixed(precision);
+  const averageDuration = message.averageDuration.toFixed(precision);
   console.log(`Details:
  • Total Iterations: ${cyan(options.iterations)}
  • Total Duration: ${cyan(ms(totalDuration))}

@@ -7,4 +7,5 @@ export interface TimeStats {
   minDuration: number;
   maxDuration: number;
   averageDuration: number;
+  _st: number;
 }

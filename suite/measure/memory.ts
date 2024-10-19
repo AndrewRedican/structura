@@ -20,12 +20,13 @@ export async function measureMemory(
       { stdio: ['inherit', 'inherit', 'inherit', 'ipc'] }
     );
     child.on('message', async (message: ChildMessage) => {
-      if (message.type === 'result' && typeof message.peakMemoryUsage === 'number') {
-        const { reportSuccess } = await import('./report/memory.success.ts');
+      const type = message.type;
+      if (type === 'result') {
+        const {reportSuccess} = await import('./report/memory.success.ts');
         await reportSuccess(info, timestamp, message, options);
         resolve();
-      } else if (message.type === 'error') {
-        const { reportError } = await import('./report/memory.error.ts');
+      } else if (type === 'error') {
+        const {reportError} = await import('./report/memory.error.ts');
         await reportError(info, timestamp, snapshotFilePath, message);
         resolve();
       }

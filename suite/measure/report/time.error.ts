@@ -7,15 +7,13 @@ import {ensureDirectoryExists} from '../../../scripts/utils/ensureDirectoryExist
 import {red, cyan} from './utils.ts'
 
 export function reportError(algorithm: Algorithm, timestamp: string, snapshotFilePath: string, message: ChildMessage): void {
-  if (message.type !== 'error') {
-    return;
-  }
+  if (message.type !== 'error') return;
   console.log(`\nExecution Time Test: ${red('✗ Failed')}`);
   const errorDetails = `Details
  • Execution Timestamp: ${timestamp}
  • Error Timestamp: ${new Date().toISOString()}
- • Iteration: ${message.iteration}
- • Input Data: ${message.inputData}
+ • Iteration: ${message.currentIteration}
+ • Input Data: ${message.currentInputData}
  • Error Message: ${message.errorMessage}
  • Error Stack Trace: ${message.errorStack}
  • Snapshot File: ${snapshotFilePath}

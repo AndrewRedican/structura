@@ -13,13 +13,12 @@ export interface TimeStats {
   averageDuration: number;
 }
 
-export interface ChildMessage {
-  type: string;
+export interface ChildMessage extends TimeStats {
+  type: 'result' | 'error';
   algorithmName?: string;
   algorithmBody?: string;
-  timeStats?: TimeStats;
-  iteration?: number;
-  inputData?: string;
+  currentIteration?: number;
+  currentInputData?: string;
   errorMessage?: string;
   errorStack?: string;
 }

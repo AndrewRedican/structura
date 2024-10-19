@@ -7,9 +7,7 @@ import {ensureDirectoryExists} from '../../../scripts/utils/ensureDirectoryExist
 import {green, cyan, MB, ms} from './utils.ts'
 
 export function reportSuccess(algorithm: Algorithm, timestamp: string, message: ChildMessage, options: RunOptions): void {
-  if (message.type !== 'result' || typeof message.peakMemoryUsage !== 'number') {
-    return;
-  }
+  if (message.type !== 'result') return;
   console.log(`\nMemory Usage Test: ${green('✓ Completed Successfully')}`);
   const peakMemoryUsageMB = message.peakMemoryUsage / 1024 / 1024;
   console.log(`Details:
