@@ -13,7 +13,8 @@
     "gd:complex": "npm run gd -- -- complex 5000",
     "gd:varied": "npm run gd -- -- varied 5000",
     "measure": "node --experimental-strip-types ./suite/measure.ts",
-    "compare": "node --experimental-strip-types ./suite/compare.ts"
+    "compare": "node --experimental-strip-types ./suite/compare.ts",
+    "clean": "node --experimental-strip-types ./scripts/clean/index.ts"
   },
   "repository": {
     "type": "git",
