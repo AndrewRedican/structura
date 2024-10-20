@@ -1,5 +1,5 @@
 import type {Algorithm} from '../model/algorithm.ts';
-import type {ChildMessage, RunOptions} from '../model/time.ts';
+import type {TimeRunnerMessage, RunOptions} from '../model/time.ts';
 import type {Logger} from '../model/logging.ts';
 import {existsSync, appendFileSync} from 'fs';
 import {resolve, join} from 'path';
@@ -7,7 +7,7 @@ import {getPath} from '../../../scripts/utils/getPath.ts';
 import {ensureDirectoryExists} from '../../../scripts/utils/ensureDirectoryExists.ts';
 import {green, cyan, ms} from './utils.ts'
 
-export function reportSuccess(logger: Logger, algorithm: Algorithm, timestamp: string, message: ChildMessage, options: RunOptions): void {
+export function reportSuccess(logger: Logger, algorithm: Algorithm, timestamp: string, message: TimeRunnerMessage, options: RunOptions): void {
   if (message.type !== 'result') return;
   logger.log(`\nExecution Time Test: ${green('✓ Completed Successfully')}`);
   const precision = typeof options.precision === 'number' && options.precision > 0 ? options.precision : 4

@@ -1,4 +1,4 @@
-import type {ChildMessage} from '../model/memory.ts'
+import type {MemoryRunnerMessage} from '../model/memory.ts'
 import type {Algorithm} from '../model/algorithm.ts';
 import type {Logger} from '../model/logging.ts';
 import {writeFileSync} from 'fs';
@@ -7,7 +7,7 @@ import {getPath} from '../../../scripts/utils/getPath.ts';
 import {ensureDirectoryExists} from '../../../scripts/utils/ensureDirectoryExists.ts';
 import {red, cyan} from './utils.ts'
 
-export function reportError(logger: Logger, algorithm: Algorithm, timestamp: string, snapshotFilePath: string, message: ChildMessage): void {
+export function reportError(logger: Logger, algorithm: Algorithm, timestamp: string, snapshotFilePath: string, message: MemoryRunnerMessage): void {
   if (message.type !== 'error') return;
   logger.log(`\nMemory Usage Test: ${red('✗ Failed')}`);
   const errorDetails = `Details

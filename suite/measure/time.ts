@@ -1,4 +1,4 @@
-import type {RunOptions, ChildMessage} from './model/time.ts';
+import type {RunOptions, TimeRunnerMessage} from './model/time.ts';
 import type {Logger} from './model/logging.ts';
 import {defaultLogger, silentLogger} from './logging.ts';
 import {createMeasurement} from './createMeasurement.ts';
@@ -7,8 +7,8 @@ export const measureTime = createTimeMeasurement(defaultLogger);
 
 export const measureTimeQuietly = createTimeMeasurement(silentLogger);
 
-function createTimeMeasurement(logger: Logger): (algorithmPath: string, options: RunOptions) => Promise<ChildMessage> {
-  return async (algorithmPath, options) => createMeasurement<RunOptions, ChildMessage>({
+function createTimeMeasurement(logger: Logger): (algorithmPath: string, options: RunOptions) => Promise<TimeRunnerMessage> {
+  return async (algorithmPath, options) => createMeasurement<RunOptions, TimeRunnerMessage>({
     algorithmPath,
     options,
     runnerScript: './scripts/runner/time.ts',

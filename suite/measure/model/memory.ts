@@ -7,7 +7,7 @@ export interface RunOptions {
   dataType: DataGeneratorName;
 }
 
-export interface ChildMessage {
+export interface MemoryRunnerMessage {
   type: 'result' | 'error';
   algorithmName?: string;
   algorithmBody?: string;

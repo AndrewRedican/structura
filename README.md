@@ -1,8 +1,14 @@
 # Structura
 
-**Structura** makes performance testing of algorithms in JavaScript and TypeScript accesible. By offering detailed performance metrics and error logging, it helps developers identify inefficiencies and errors in their code, facilitating continuous improvement and optimization.
+**Structura** makes testing performance of JavaScript/TypeScript algorithms in accesible. It helps developers identify inefficiencies and errors in their code, facilitating continuous improvement and optimization. It offers the following:
 
-The primary use of this project is to assist you in optimizing algorithms for speed or memory consumption. Structura provides you with the essentials to measure, compare, and understand the performance characteristics of your code.
+1. Performance metrics
+2. Error logging
+3. Version Snapshots
+4. Version Comparison
+5. Test Data Generation
+
+The primary reason for using this project is to assist you in optimizing algorithms for speed or memory usage. Structura provides you with the essentials to measure, compare, and understand the performance characteristics of your code.
 
 ## Features
 
@@ -41,9 +47,9 @@ Generate datasets using the following commands:
 - `npm run gd -- [type] [number]`  — Generate any custom dataset of _N_ amount of records.
 Replace `[type]` with the either `small`, `standard`, `complex`, and `varied` or a custom value, and replace `[number]` with a number greater than `0`. For you custom data type to be used, you will have to modify [scripts/generateData/generators/index.ts](scripts/generateData/generators/index.ts) to fit your specific needs and include your own data generator.
 
-### Testing your algorithm
+### Measuring Performance
 
-Structura distinguishes between "stable" and "experimental" versions of algorithms. In reality, this is more of a _suggestion_, since technically you can target any TypeScript file under the source folder, provided you include the relative path or name with the `--algorithm` or `-a` (shorthand) flags.
+A distinction is made between _stable_ and _experimental_ versions of your algorithm. In reality, this is more of a _suggestion_, and mainly included for demonstration purposes, since technically you can target any TypeScript file under the source folder, provided you include the relative path or name with the `--algorithm` or `-a` (shorthand) flags.
 
 - **Stable**: The version of your algorithm that is considered reliable and optimized. Place this code in [./src/stable.ts](./src/stable.ts).
 - **Experimental**: The version under development or testing. Place this code in [./src/experiment.ts](./src/experiment.ts).
@@ -72,7 +78,7 @@ npm run measure -- --algorithm experiment -t -m -i 200 -p 4 -s 10 -d complex
 
 The framework will output performance metrics to the terminal and generate logs in the appropriate directories (`./performance`, `./snapshots`, and `./errors`).
 
-### CLI Options
+#### CLI Options for Measuring Performance
 
 | Option                      | Description                                                                                                  | Required                                 | Type             | Example Value    |
 |-----------------------------|--------------------------------------------------------------------------------------------------------------|------------------------------------------|------------------|------------------|
@@ -84,13 +90,11 @@ The framework will output performance metrics to the terminal and generate logs 
 | `-s`, `--sampling-interval` | Time between memory usage samples in milliseconds                                                            | Required if `-m` is specified            | Positive integer | `10`             |
 | `-d`, `--data-type`         | Type of data used for performance tests. Supported values: `none`, `small`, `standard`, `complex`, `varied`          | No. (Defaults to `none` when not specified).                                      | String           | `small`           |
 
-### Configuration File
+#### Configuration File for Measuring Performance
 
-Structura supports loading configuration options from a `measure.config.json` file located directly under the project root directory. This allows you to set default options without specifying them every time on the command line.
+Define `measure.rc` in the root directory to set default options without specifying them every time on the command line.
 
-#### Using the Configuration File
-
-If `measure.config.json` exists in the project root directory, the CLI will automatically read options from it. Command-line arguments will override the options specified in the configuration file. The configuration file supports the same options as the CLI, for example:
+When `measure.rc` file exists, options will be read from it, only command-line arguments will override the options specified in the configuration file. For example:
 
 ```json
 {
@@ -116,11 +120,70 @@ You can still override any option via the command line:
 npm run measure -- -a stable -d complex
 ```
 
-#### How Options are Resolved
+### Comparing Performance
 
-1. **Command-Line Arguments**: Highest priority. Any options specified on the command line will override those in the configuration file.
-2. **Configuration File**: If an option is not specified on the command line but is present in measure.config.json, it will be used.
-3. **Required Options**: If an option is required and not specified in either the command line or the configuration file, the program will exit with an error.
+Similar to how you measure performance, the project allows you to compare performance of two versions of your algorithm at a time.
+
+Due to nature of performance testing, it is recommended you do so specifying a higher amount of iterations, to make sure the variability normalizes over time in a larger data set of measurement results.
+
+#### Run Comparison
+
+To execute performance comparison between the **stable** and **experiment** versions of the algorithm:
+
+```bash
+  npm run compare -- -v stable experiment -t -m -i 100 -p 4 -s 10 -d small
+```
+
+This will execute the code for both [./src/stable.ts](./src/stable.ts) and [./src/experiment.ts](./src/experiment.ts) in parallel and eventually print the results.
+
+> Note: The `--versions` flag (or `-v` for short) specifies the target files to compare. You can supply a relative path from the `src` folder or simply provide the filename directly under `src`. Specifying the `.ts` file extension is optional.
+
+The framework will output performance metrics to the terminal and generate logs in the appropriate directories (`./performance`, `./snapshots`, and `./errors`), and print the comparsion results in the terminal, like so:
+
+![Screenshot of Comparison Details](misc/screenshots/comparison.png)
+
+#### CLI Options for Comparing Performance
+
+| Option                      | Description                                                                                                  | Required                                 | Type             | Example Value    |
+|-----------------------------|--------------------------------------------------------------------------------------------------------------|------------------------------------------|------------------|------------------|
+| `-t`, `--time`              | Measure execution time                                                                                       | At least one of `-t` or `-m` is required | Flag (Boolean)   | N/A              |
+| `-m`, `--memory`            | Measure memory usage                                                                                         | At least one of `-t` or `-m` is required | Flag (Boolean)   | N/A              |
+| `-v`, `--versions`         | Paths to the algorithm under test, relative to the root directory                                             | Yes                                      | String           | `stable experiment`     |
+| `-i`, `--iterations`        | Number of iterations to run the algorithm                                                                    | Yes                                      | Positive integer | `100`            |
+| `-p`, `--precision`         | Number of significant digits                                                                                 | Yes                                      | Positive integer | `4`              |
+| `-s`, `--sampling-interval` | Time between memory usage samples in milliseconds                                                            | Required if `-m` is specified            | Positive integer | `10`             |
+| `-d`, `--data-type`         | Type of data used for performance tests. Supported values: `none`, `small`, `standard`, `complex`, `varied`          | No. (Defaults to `none` when not specified).                                      | String           | `small`           |
+
+#### Configuration File for Comparing Performance
+
+Define `compare.rc` in the root directory to set default options without specifying them every time on the command line.
+
+When `compare.rc` file exists, options will be read from it, only command-line arguments will override the options specified in the configuration file. For example:
+
+```json
+{
+  "algorithmPathA": "experiment",
+  "algorithmPathB": "stable",
+  "time": true,
+  "memory": true,
+  "iterations": 100,
+  "precision": 4,
+  "samplingInterval": 10,
+  "dataType": "small"
+}
+```
+
+With a configuration file in place, you can run the compare script without specifying all the options:
+
+```bash
+npm run compare
+```
+
+You can still override any option via the command line:
+
+```bash
+npm run compare -- -a stable -d complex
+```
 
 ### Performance Testing Framework
 

@@ -10,4 +10,4 @@ export const createLogger = (log: LogFunction = console.log, error: LogFunction 
 
 export const defaultLogger = createLogger();
 
-export const silentLogger = createLogger(noop, noop, noop);
+export const silentLogger = createLogger(noop, console.error, noop);

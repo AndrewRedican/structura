@@ -13,7 +13,7 @@ export interface TimeStats {
   averageDuration: number;
 }
 
-export interface ChildMessage extends TimeStats {
+export interface TimeRunnerMessage extends TimeStats {
   type: 'result' | 'error';
   algorithmName?: string;
   algorithmBody?: string;

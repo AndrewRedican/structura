@@ -1,13 +1,16 @@
-import type {MeasureOptions} from './model/measure.ts';
+import type {CompareOptions} from './model/compare.ts';
 import {exitWithError} from '../../scripts/utils/exitWithError.ts';
 import {createConfigFileReader, resolvePath} from '../utils/index.ts';
 
-const readConfigFile = createConfigFileReader<MeasureOptions>('./measure.rc', 'measure config');
+const readConfigFile = createConfigFileReader<CompareOptions>('./compare.rc', 'compare config');
 
-export function getOptions(): MeasureOptions {
+export function getOptions(): CompareOptions {
   const args = process.argv.slice(2);
   const configOptions = readConfigFile();
-  const options = { ...{ dataType: 'none', time: false, memory: false }, ...configOptions } as MeasureOptions;
+  const options = {
+    ...{ dataType: 'none', time: false, memory: false, targetA: 'experiment', targetB: 'stable' },
+    ...configOptions
+  } as CompareOptions;
   for (let i = 0; i < args.length; i+= 1) {
     switch (args[i]) {
       case '-t': case '--time':
@@ -16,8 +19,9 @@ export function getOptions(): MeasureOptions {
       case '-m': case '--memory':
         options.memory = true;
         break;
-      case '-a': case '--algorithm':
-        options.algorithmPath = args[++i];
+      case '-v': case '--versions':
+        options.algorithmPathA = args[++i];
+        options.algorithmPathB = args[++i];
         break;
       case '-i': case '--iterations':
         options.iterations = parseInt(args[++i], 10);
@@ -29,19 +33,30 @@ export function getOptions(): MeasureOptions {
         options.samplingInterval = parseInt(args[++i], 10);
         break;
       case '-d': case '--data-type':
-        options.dataType = args[++i] as MeasureOptions['dataType'];
+        options.dataType = args[++i] as CompareOptions['dataType'];
         break;
       default:
         exitWithError(`Unknown argument: ${args[i]}`);
     }
   }
-  if (typeof options.algorithmPath !== 'string' || options.algorithmPath.length === 0) {
+  if (typeof options.algorithmPathA !== 'string' || options.algorithmPathA.length === 0) {
     exitWithError(
-      'Algorithm path is required',
-      'Use -a or --algorithm to specify the path algorithm under test relative to the root directory of the project.'
+      'Algorithm A path is required',
+      'Use -v or --versions to specify the path algorithm A under test relative to the root directory of the project.'
     );
   } else {
-    options.algorithmPath = resolvePath(options.algorithmPath);
+    options.algorithmPathA = resolvePath(options.algorithmPathA);
+  }
+  if (typeof options.algorithmPathB !== 'string' || options.algorithmPathB.length === 0) {
+    exitWithError(
+      'Algorithm B path is required',
+      'Use -v or --versions to specify the path algorithm B under test relative to the root directory of the project.'
+    );
+  } else {
+    options.algorithmPathB = resolvePath(options.algorithmPathB);
+  }
+  if (options.algorithmPathA === options.algorithmPathB) {
+    exitWithError(`Algorithm A and Algorithm B path is required. Cannot run comparison when both point to the same algorithm: ${options.algorithmPathA}`);
   }
   if (!options.time && !options.memory) {
     exitWithError(

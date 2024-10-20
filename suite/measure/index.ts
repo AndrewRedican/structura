@@ -13,13 +13,15 @@ Measuring performance ${measurement}:
     console.log(` • Sampling Interval: ${options.samplingInterval}`);
   }
   generateData(options.iterations, options.dataType);
+  const measurements: ((algorithmPath: string, options: any) => Promise<any>)[] = [];
   if (options.time) {
     const {measureTime} = await import('./time.ts');
-    await measureTime(options.algorithmPath, options);
+    measurements.push(measureTime);
   }
   if (options.memory) {
     const {measureMemory} = await import('./memory.ts');
-    await measureMemory(options.algorithmPath, options);
+    measurements.push(measureMemory);
   }
+  await Promise.all(measurements.map(fn => fn(options.algorithmPath, options)));
 }
 
