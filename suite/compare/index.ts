@@ -6,7 +6,7 @@ export async function compare(options: CompareOptions) {
   console.log(`
 Comparing performance ${measurement}:
  • Algorithm A path: ${options.algorithmPathA}
- • Algorithm B path: ${options.algorithmPathA}
+ • Algorithm B path: ${options.algorithmPathB}
  • Iterations: ${options.iterations}
  • Precision: ${options.precision}
  • Data Type: ${options.dataType}`);
