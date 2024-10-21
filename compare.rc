@@ -1,6 +1,6 @@
 {
-  "algorithmPathA": "experiment",
-  "algorithmPathB": "stable",
+  "algorithmPathA": "stable",
+  "algorithmPathB": "experiment",
   "time": true,
   "memory": true,
   "iterations": 100000,

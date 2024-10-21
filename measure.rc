@@ -1,9 +1,9 @@
 {
-  "algorithmPath": "experiment",
+  "algorithmPath": "stable",
   "time": true,
   "memory": true,
-  "iterations": 100,
+  "iterations": 100000,
   "precision": 4,
   "samplingInterval": 10,
-  "dataType": "small"
+  "dataType": "complex"
 }

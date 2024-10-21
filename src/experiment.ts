@@ -1,10 +1,21 @@
-export default async function algorithm(inputData: any): Promise<void> {
-  // Uncomment to print data passed into the function
-  // console.log(inputData);
+export default async function algorithm(inputData: any): Promise<any> {
+  // const result: Record<string, any> = {};
 
-  // Uncomment to test some memory usage
-  // const data = new Array(1000).fill('x');
+  // function flattenObject(obj: any, parentKey: string = ''): void {
+  //   for (let key in obj) {
+  //     if (obj.hasOwnProperty(key)) {
+  //       const newKey = parentKey ? `${parentKey}.${key}` : key;
 
-  // Uncomment to test time execytion by simulating processing delay
-  // await new Promise((resolve) => setTimeout(resolve, 10));
+  //       // Check if the value is an object, and recursively flatten it
+  //       if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+  //         flattenObject(obj[key], newKey);
+  //       } else {
+  //         result[newKey] = obj[key];  // Directly assign values to the result
+  //       }
+  //     }
+  //   }
+  // }
+
+  // flattenObject(inputData);
+  // return result;
 }

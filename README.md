@@ -2,13 +2,9 @@
 
 **Structura** makes testing performance of JavaScript/TypeScript algorithms in accesible. It helps developers identify inefficiencies and errors in their code, facilitating continuous improvement and optimization. It offers the following:
 
-1. Performance metrics
-2. Error logging
-3. Version Snapshots
-4. Version Comparison
-5. Test Data Generation
-
 The primary reason for using this project is to assist you in optimizing algorithms for speed or memory usage. Structura provides you with the essentials to measure, compare, and understand the performance characteristics of your code.
+
+[![Watch the video](/misc/screenshots/video-clip.png)](https://www.youtube.com/watch?v=47YI-csDcMA&lc=UgycpSQatE7deqnNI994AaABAg)
 
 ## Features
 
